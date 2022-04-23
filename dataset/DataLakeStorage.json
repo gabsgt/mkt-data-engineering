@@ -1,0 +1,27 @@
+{
+	"name": "DataLakeStorage",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataLakeAmbev",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ambev-project-db"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "sellers",
+				"folderPath": "files/mysql/sellers",
+				"fileSystem": "raw"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
