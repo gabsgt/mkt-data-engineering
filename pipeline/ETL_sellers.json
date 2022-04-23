@@ -55,7 +55,7 @@
 				]
 			},
 			{
-				"name": "closeddeals",
+				"name": "copy closeddeals",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
