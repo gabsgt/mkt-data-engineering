@@ -1,0 +1,84 @@
+{
+	"name": "sellers_full",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "sellers_table",
+						"type": "DatasetReference"
+					},
+					"name": "sellers"
+				},
+				{
+					"dataset": {
+						"referenceName": "closed_deals_table",
+						"type": "DatasetReference"
+					},
+					"name": "closedDeals"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DataLakeStorage",
+						"type": "DatasetReference"
+					},
+					"name": "sinkToDataLake"
+				}
+			],
+			"transformations": [
+				{
+					"name": "joinSellersAndClosedDeals"
+				},
+				{
+					"name": "filterFoodAndDrinkOnly"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          seller_id as string,",
+				"          seller_zip_code_prefix as integer,",
+				"          seller_city as string,",
+				"          seller_state as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> sellers",
+				"source(output(",
+				"          mql_id as string,",
+				"          seller_id as string,",
+				"          sdr_id as string,",
+				"          sr_id as string,",
+				"          won_date as timestamp,",
+				"          business_segment as string,",
+				"          lead_type as string,",
+				"          lead_behaviour_profile as string,",
+				"          has_company as boolean,",
+				"          has_gtin as boolean,",
+				"          average_stock as string,",
+				"          business_type as string,",
+				"          declared_product_catalog_size as double,",
+				"          declared_monthly_revenue as double",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> closedDeals",
+				"sellers, closedDeals join(sellers@seller_id == closedDeals@seller_id,",
+				"     joinType:'left',",
+				"     broadcast: 'auto')~> joinSellersAndClosedDeals",
+				"joinSellersAndClosedDeals filter(business_segment=='food_drink') ~> filterFoodAndDrinkOnly",
+				"filterFoodAndDrinkOnly sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sinkToDataLake"
+			]
+		}
+	}
+}

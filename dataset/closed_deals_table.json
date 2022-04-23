@@ -1,0 +1,79 @@
+{
+	"name": "closed_deals_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ambevprojectdb",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "ambev-project-db"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "mql_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "seller_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sdr_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "sr_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "won_date",
+				"type": "datetime2",
+				"scale": 7
+			},
+			{
+				"name": "business_segment",
+				"type": "nvarchar"
+			},
+			{
+				"name": "lead_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "lead_behaviour_profile",
+				"type": "nvarchar"
+			},
+			{
+				"name": "has_company",
+				"type": "bit"
+			},
+			{
+				"name": "has_gtin",
+				"type": "bit"
+			},
+			{
+				"name": "average_stock",
+				"type": "nvarchar"
+			},
+			{
+				"name": "business_type",
+				"type": "nvarchar"
+			},
+			{
+				"name": "declared_product_catalog_size",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "declared_monthly_revenue",
+				"type": "float",
+				"precision": 15
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "closed_deals_dataset"
+		}
+	}
+}
